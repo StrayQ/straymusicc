@@ -1,20 +1,20 @@
 'use strict';
 const Discord = require('discord.js');
+
 const config = require('./config.json');
 const cmds = require('./commands.js');
 const music = require('./music.js');
 const tool = require('./tool.js');
+
 const prompt = require('prompt');
 const colors = require('colors');
 prompt.message = '';
 prompt.delimiter = '';
-
+const token = process.env.token;
 const bot = new Discord.Client();
 
-const token = process.env.token;
-
 bot.on('ready', () => {
-    console.log(`${bot.user.username}  Starting.`);
+    console.log(`${bot.user.username}  starting.`);
     console.log(`Serving ${bot.guilds.size} guilds.`);
 
     bot.user.setGame(config.prefix + 'help');
