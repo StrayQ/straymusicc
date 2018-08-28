@@ -46,7 +46,7 @@ function processCommand(msg) {
         case 'leave':
             return guild.leaveVc(msg);
         default:
-            msg.channel.send(`Please refer to ${tool.wrap('~help music')}.`);
+            msg.channel.send(`Prié de se referer à ${tool.wrap('~help music')}.`);
     }
 }
 
@@ -63,12 +63,12 @@ function processInput(msg, guild) {
             } else if (url.search(/v=(\S+?)(&|\s|$|#)/)) { //Video.
                 processYoutube.song(msg, guild, url);
             } else {
-                msg.channel.send(`Invalid Youtube link!`);
+                msg.channel.send(`Lien Youtube invalide!`);
             }
         } else if (url.search('soundcloud.com')) { //Soundcloud.
-            msg.channel.send('Sorry, Soundcloud music isn\'nt functional right now.');
+            msg.channel.send('Désolé, la musique Soundcloud n est pas fonctionnelle pour le moment.');
         } else {
-            msg.channel.send('Sorry, I only support Youtube right now.');
+            msg.channel.send('Désolé, je ne supporte que Youtube pour le moment.');
         }
     }
 }
@@ -80,19 +80,19 @@ const opts = {
 };
     ySearch(searchQuery, opts, function (err, results) {
         if (err) {
-            msg.channel.send(`Sorry, I couldn't find matching song.`);
+            msg.channel.send(`Désolé, je n'ai pas trouvé la chanson correspondante.`);
             return console.log(err);
         }
         for (var y = 0; results[y].kind === 'youtube#channel'; y++);
         ytdl.getInfo(results[y].link, function (err, song) {
             if (err) {
-                msg.channel.send(`Sorry, I couldn't find matching song.`);
+                msg.channel.send(`Désolé, je n'ai pas trouvé la chanson correspondante.`);
                 return console.log(err);
             }
             const author  = msg.author.username + '#' + msg.author.discriminator;
             guild.queueSong(new Song(song.title, song.video_url, 'youtube',  author, time(song.length_seconds), song.iurlmq));
                     msg.channel.send(
-            `Enqueued ${tool.wrap(song.title.trim())} (\`${time(song.length_seconds)}\`) requested by ${tool.wrap(author)}`
+            `Mettre en queue ${tool.wrap(song.title.trim())} (\`${time(song.length_seconds)}\`) demandé par ${tool.wrap(author)}`
         );
 
         if (guild.status != 'playing')
@@ -114,14 +114,14 @@ const processYoutube = {
         ytdl.getInfo(url, (err, song) => {
             if (err) {
                 console.log(err);
-                msg.channel.send(`Sorry I couldn't queue your song.`);
+                msg.channel.send(`Désolé je n'ai pas pu faire la queue à votre chanson.`);
                 return;
             }
             const author  = msg.author.username + '#' + msg.author.discriminator;
             console.log(song);
             guild.queueSong(new Song(song.title, url, 'youtube', author,time(song.length_seconds), song.iurlmq));
             msg.channel.send(
-                `Enqueued ${tool.wrap(song.title.trim())} (\`${time(song.length_seconds)}\`) requested by ${tool.wrap(author)}`
+                `Mettre en queue ${tool.wrap(song.title.trim())} (\`${time(song.length_seconds)}\`) demandé par ${tool.wrap(author)}`
             );
             if (guild.status != 'playing') {
                 guild.playSong(msg);
@@ -141,7 +141,7 @@ const processYoutube = {
             .catch(err => {
                 console.log(err);
                 msg.channel.send(
-                    `Sorry, I couldn't add your playlist to the queue. Try again later.`
+                    `Désolé, je n'ai pas pu ajouter votre liste de lecture à la file d'attente. Réessayez plus tard.`
                 )
             });
 
@@ -168,7 +168,7 @@ const processYoutube = {
             let body = await rp(options);
             let playlist = JSON.parse(body);
             playlistItems = playlistItems.concat(playlist.items.filter( //Concat all non-deleted videos.
-                item => item.snippet.title != 'Deleted video'));
+                item => item.snippet.title != 'Vidéo supprimée'));
 
             if (playlist.hasOwnProperty('nextPageToken')) { //More videos in playlist.
                 playlistItems = await getPlaylistSongs(playlistItems, playlist.nextPageToken);
@@ -190,7 +190,7 @@ const processYoutube = {
             }
 
             msg.channel.send(
-                `Enqueued ${tool.wrap(playlistItems.length)} songs from ${tool.wrap(playlistTitle)} requested by ${tool.wrap(msg.author.username + '#' + msg.author.discriminator)}`
+                `Mettre en queue ${tool.wrap(playlistItems.length)} chansons de ${tool.wrap(playlistTitle)} demandé par ${tool.wrap(msg.author.username + '#' + msg.author.discriminator)}`
             );
 
             if (guild.status != 'playing') {
@@ -225,18 +225,18 @@ function timer() {
     for (let guildId in guilds) {
         let guild = guilds[guildId];
         if (guild.status == 'stopped' || guild.status == 'paused')
-            guild.inactivityTimer -= 10;
+            guild.inactivityTimer -= 50;
         if (guild.inactivityTimer <= 0) {
             guild.voiceConnection.disconnect();
             guild.voiceConnection = null;
             guild.musicChannel.send(
-                ':no_entry_sign: Leaving voice channel due to inactivity.');
+                ':no_entry_sign: Quitter le canal vocal en raison de l inactivité.');
 
             guild.changeStatus('offline');
         }
     }
 }
-setInterval(timer, 10000);
+setInterval(timer, 500000);
 
 
 
