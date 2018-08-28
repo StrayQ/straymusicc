@@ -109,10 +109,10 @@ function help(msg) {
     else 
         msg.channel.send(stripIndent(
             `
-            [Help Menu]
+            [Menu d'aide]
                !help [command]
 
-               #Utility
+               #Utilitaire
                   !music
 
             [] = optionnelle, <> = require, | = ou
@@ -146,8 +146,8 @@ function kick(msg){
         return msg.channel.send(`Vous n'avez pas la permissions de kick !`);
     }
     let memberToKick = msg.mentions.members.first();
-    if (memberToKick && memberToKick.kickable && (msg.member.highestRole.calculatedPosition >
-            memberToBan.highestRole.calculatedPosition || msg.guild.ownerID == msg.author.id)) {
+    if (memberToBan && memberToKick.kickable && (msg.member.highestRole.calculatedPosition >
+            memberToKick.highestRole.calculatedPosition || msg.guild.ownerID == msg.author.id)) {
         let reason = tool.parseOptionArg('reason', msg.content); // !ban @player --reason ce que vous le kick
         memberToKick.kick(reason ? reason : 'none');
     }
