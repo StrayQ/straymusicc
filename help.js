@@ -1,7 +1,7 @@
 const commands = module.exports = {
     'help': `
 ~help [command]
-   !music`,
+   Brings up the command page. Pass a command for further information.`,
 
     'choose': `
 ~choose <arg1> | [arg2] ...
@@ -43,21 +43,22 @@ modify
 [Music Help]
 
 ~music | m <function>
-   play <url> | <search> : Adds the song/playlist to the queue.
-   skip                  : Skips the current song.
-   pause                 : Pauses the song.
-   resume                : Resumes the song.
+   play <url> | <search> : Ajoute la chanson / la liste de lecture a la file d attente.
+   skip                  : Ignore la chanson en cours.
+   pause                 : Met en pause la chanson.
+   resume                : Reprend la chanson.
 
-   queue                 : Displays the song queue.
-   purge                 : Clears the song queue.
-   np                    : Displays the title of the current song.
 
-   vol | v <0-100>       : Sets volume.
+   queue                 : Affiche la file d attente de chansons.
+   purge                 : Efface la file d attente de chansons.
+   np                    : Affiche le titre de la chanson en cours.
 
-   join                  : Joins your voice channel.
-   leave                 : Leaves voice channel.
+   vol | v <0-100>       : Definit le volume.
 
-Requires a #music text channel.`,
+   join                  : Se joint à votre canal vocal.
+   leave                 : Quitte le canal vocal.
+
+Necessite un canal de texte #music.`,
 
     'ban': `
 ~ban <mention> [options]
