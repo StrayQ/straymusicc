@@ -15,7 +15,7 @@ const token = process.env.token;
 const bot = new Discord.Client();
 
 bot.on('ready', () => {
-    Sondage.parse(msg)
+ 
     console.log(`${bot.user.username}  starting.`);
     console.log(`Serving ${bot.guilds.size} guilds.`);
 
@@ -26,6 +26,7 @@ bot.on('ready', () => {
 });
 
 bot.on('message', msg => {
+	Sondage.parse(msg);
     if (msg.author.bot || msg.channel.type != 'text')
         return; // Do not respond to messages from bots or messages that are not from guilds.
 
