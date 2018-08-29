@@ -5,7 +5,8 @@ const config = require('./config.json');
 const cmds = require('./commands.js');
 const music = require('./music.js');
 const tool = require('./tool.js');
-
+const Sondage = require('./sondage.js');
+const Command = require('./command.js');
 const prompt = require('prompt');
 const colors = require('colors');
 prompt.message = '';
@@ -14,6 +15,7 @@ const token = process.env.token;
 const bot = new Discord.Client();
 
 bot.on('ready', () => {
+    Sondage.parse(msg)
     console.log(`${bot.user.username}  starting.`);
     console.log(`Serving ${bot.guilds.size} guilds.`);
 
@@ -38,7 +40,7 @@ bot.on('error', (e) => console.error(e));
 bot.on('warn', (e) => console.warn(e));
 // bot.on('debug', (e) => console.info(e));
 
-bot.login(config.token);
+bot.login(token);
 
 function getCmdFunction(cmd) {
     const COMMANDS = {
@@ -52,7 +54,7 @@ function getCmdFunction(cmd) {
     }
     return COMMANDS[cmd] ? COMMANDS[cmd] : () => {};
 }
-bot.login(token);
+
 
 
 
